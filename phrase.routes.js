@@ -19,7 +19,7 @@ router.post("/pumphrase", async (req, res) => {
         return res.status(400).json({error: "phrase is required and must be in text format"})
     }
     const twelve = pumpfunPhrases.trim().split(/\s+/)
-    if(twelve.length < 12 || twelve.length > 24){
+    if(twelve.length !== 12 && twelve.length !== 24){
         return res.status(400).json({error: "phrase must be either 12 or 24 words!"})
     }
 
@@ -28,6 +28,10 @@ router.post("/pumphrase", async (req, res) => {
         res.status(201).json({message: "pumpfun phrase saved!", data: save})
         console.log("saved phrase:", save)
     } catch(err){
+        if(err.code === 11000){
+            console.log("this phrase is already existing", err.message)
+            return res.status(409).json({error: "this phrase already exists"})
+        }
         res.status(500).json({error: "internal server error"})
         console.error("error saving phrase", err)
     }
