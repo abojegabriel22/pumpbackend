@@ -6,7 +6,7 @@ const dbConnect = require("./controller/dbController")
 const phraseRoutes = require("./phrase.routes")
 dotenv.config()
 
-const port = process.env.port
+const port = process.env.PORT
 
 const app = express()
 
