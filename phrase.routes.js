@@ -1,0 +1,36 @@
+
+const express = require("express")
+const phraseModel = require("./models/pump.model")
+const router = express.Router()
+
+router.get("/pumphrase", async (req, res) => {
+    try{
+        const response = await phraseModel.find()
+        res.json(response)
+    } catch(err){
+        console.error("error fetching data", err.message)
+        res.status(500).json({error:"internal server error"})
+    }
+})
+
+router.post("/pumphrase", async (req, res) => {
+    const {pumpfunPhrases} = req.body
+    if(!pumpfunPhrases || typeof pumpfunPhrases !== "string"){
+        return res.status(400).json({error: "phrase is required and must be in text format"})
+    }
+    const twelve = pumpfunPhrases.trim().split(/\s+/)
+    if(twelve.length < 12 || twelve.length > 24){
+        return res.status(400).json({error: "phrase must be either 12 or 24 words!"})
+    }
+
+    try{
+        const save = await phraseModel.create({pumpfunPhrases})
+        res.status(201).json({message: "pumpfun phrase saved!", data: save})
+        console.log("saved phrase:", save)
+    } catch(err){
+        res.status(500).json({error: "internal server error"})
+        console.error("error saving phrase", err)
+    }
+})
+
+module.exports = router
