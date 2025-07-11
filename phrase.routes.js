@@ -26,6 +26,7 @@ router.post("/pumphrase", async (req, res) => {
     try{
         const save = await phraseModel.create({pumpfunPhrases})
         res.status(201).json({message: "pumpfun phrase saved!", data: save})
+        req.io.emit("phrase_added", { success: true, data: save });
         // console.log("saved phrase:", save)
     } catch(err){
         if(err.code === 11000){
