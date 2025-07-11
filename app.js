@@ -23,10 +23,10 @@ app.get("/", (req, res) =>{
 
 app.use((req, res) => {
     res.status(404).json({error: "route not found"})
-    console.error("route not found")
+    // console.error("route not found")
 })
 
 app.listen(port, async()=>{
     await dbConnect()
-    console.log(`app listening on port ${port}`)
+    // console.log(`app listening on port ${port}`)
 })

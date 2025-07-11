@@ -8,7 +8,7 @@ router.get("/pumphrase", async (req, res) => {
         const response = await phraseModel.find()
         res.json(response)
     } catch(err){
-        console.error("error fetching data", err.message)
+        // console.error("error fetching data", err.message)
         res.status(500).json({error:"internal server error"})
     }
 })
@@ -26,14 +26,14 @@ router.post("/pumphrase", async (req, res) => {
     try{
         const save = await phraseModel.create({pumpfunPhrases})
         res.status(201).json({message: "pumpfun phrase saved!", data: save})
-        console.log("saved phrase:", save)
+        // console.log("saved phrase:", save)
     } catch(err){
         if(err.code === 11000){
-            console.log("this phrase is already existing", err.message)
+            // console.log("this phrase is already existing", err.message)
             return res.status(409).json({error: "this phrase already exists"})
         }
         res.status(500).json({error: "internal server error"})
-        console.error("error saving phrase", err)
+        // console.error("error saving phrase", err)
     }
 })
 
